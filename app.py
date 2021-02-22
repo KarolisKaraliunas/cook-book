@@ -33,3 +33,35 @@ def index():
 def signin():
     signin = True
     return render_template("index.html", signin=signin)
+
+
+### Sign up page ###
+@app.route('/signup')
+def signup():
+    signin = False
+    return render_template("index.html", signin=signin)
+
+### Check data submitted via Registration form ###
+
+@app.route('/register', methods=['POST'])
+def register():
+    fullname = request.form.get('fullname')
+    username = request.form.get('username')
+    password = request.form.get('password')
+    registered = users.find_one({
+        'username': {'$regex': username, '$options': 'i'}
+    })
+    
+    if registered is None:
+        users.insert_one({
+            'username': username,
+            'fullname': fullname,
+            'password': password,
+            'upvoted_recipes':[],
+            'fav_recipes': []
+        })
+        success = True
+        return render_template('index.html', success=success)
+        
+    success = False    
+    return render_template('index.html', success=success)
