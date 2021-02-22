@@ -12,9 +12,24 @@ app.config['SECRET_KEY'] = os.urandom(24)
 mongo = PyMongo(app)
 
 
-""" Variables """
+### Variables ###
 users = mongo.db.users
 recipes = mongo.db.recipes
 cuisines = mongo.db.cuisines
 dishes = mongo.db.dishes
 allergens = mongo.db.allergens
+
+
+
+### Login Page ###
+
+@app.route('/')
+def index():
+    return render_template("index.html")
+
+
+### Sign in button ###
+@app.route('/signin')
+def signin():
+    signin = True
+    return render_template("index.html", signin=signin)
