@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>My Cookbook</title>
+</head>
+<body>
+    
+    <!-- Header section -->
+    <header>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="{{url_for('index')}}" class="brand-logo center">
+                        <span class="pink-text text-accent-2">Cook</span>
+                        <span class="blue-grey-text text-lighten-4"> Book</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Main section -->
+    <main>
+        
+        <!-- Alert messages -->
+        <div class="container container-width">
+            {% if success == True %}
+                <p class="red-text text-darken-4">You are successfully registered. Please login below.</p>
+            {% elif success == False %}
+                <p class="red-text text-darken-4">Sorry that username already exists. Please use a different username.</p>
+            {% elif login == False %}
+                <p class="red-text text-darken-4">Login failed. Incorrect username or/and password. Please try again.</p>
+            {% endif %}
+        </div>
+    
+        <!-- Guest user -->
+        <div class="container container-width container-spacing">
+            <div class="section center">
+                <h5 class="heading">Guest User</h5>
+                <div>
+                    <a href="{{url_for('guest_user')}}" class="btn btn-spacing waves-effect waves-light">Continue</a>
+                </div>
+            </div>
+        </div>
+    
