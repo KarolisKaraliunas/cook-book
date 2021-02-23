@@ -11,3 +11,41 @@
     <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
+    <title>Cook Book</title>
+</head>
+<body>
+<!-- Header -->
+    <header>
+        
+       <!-- Dropdown content for Desktop view -->
+        <ul id="categories1" class="dropdown-content">
+            <li><a href="{{url_for('all_cuisines')}}">
+                    All Cuisines
+                </a>
+            </li>
+            <li><a href="{{url_for('all_dishes')}}">
+                    All Dish Types
+                </a>
+            </li>
+        </ul>
+        <ul id="user-options1" class="dropdown-content">
+            <li><a href="{{url_for('my_recipes', username = session.username, num=1)}}">
+                    <i class="fas fa-book-open  deep-orange-text text-lighten-1" aria-hidden = "true"></i> 
+                    My recipes
+                </a>
+            </li>
+            <li><a href="{{url_for('fav_recipes', username = session.username, num=1)}}">
+                    <i class="fas fa-heart red-text text-accent-4" aria-hidden = "true"></i> 
+                    Favorite recipes
+                </a>
+            </li>
+            <li><a href="{{url_for('logout')}}">
+                    <i class="fas fa-sign-out-alt blue-grey-text" aria-hidden = "true"></i> 
+                    Logout
+                </a>
+            </li>
+        </ul>
+
+
+
+</body>
