@@ -1,0 +1,115 @@
+{% extends 'base.html' %}{% block content %}
+
+<div class="container">
+    <div class="row section blue-grey lighten-5">
+        <div class="col s12">
+            <div class="row">
+                <div class="col img-container s12 m5"><img class="recipe-img" src="{{recipe.recipe_image_url}}" alt="dish image"></div>
+                <div class="col s12 m7">
+                    <h5 class="small-heading">{{recipe.recipe_title}}</h5>
+                        <span class="author-name">by <strong class="blue-grey-text text-darken-1">{{recipe.recipe_author_name}}</strong></span>
+                    <p>
+                        <i class="material-icons icon-height">schedule</i> Preparation Time: {{recipe.recipe_prep_time}}<br>
+                        <i class="material-icons icon-height">schedule</i> Cook Time: {{recipe.recipe_cook_time}}<br>
+                        <i class="material-icons icon-height">schedule</i> Total Time: {{recipe.total_time}}<br>
+                        <i class="material-icons icon-height">local_dining</i> Servings: {{recipe.recipe_serves}}<br>
+                    </p>
+                    <p><strong>Cuisine name:</strong> {{recipe.cuisine_name}}</p>
+                    <p><strong>Dish type:</strong> {{recipe.dish_type}}</p>
+                    <p><strong>Allergens:</strong> 
+                    {% if recipe.allergen_name %}
+                        {% for allergen in recipe.allergen_name %}
+                            {% if allergen != recipe.allergen_name[-1] %}
+                                {{allergen}}, 
+                            {% else %}
+                                {{allergen}}.
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}    
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if session.username %}
+    <div class="row section section-padding">
+        <div class="col s3 center">
+            {% if session.username %}
+                {% if session.username.lower() in recipe.fav_by_users %}
+                    <a href="{{url_for('remove_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
+                        <i class="material-icons icons red-text text-accent-1 tooltipped" data-position="bottom" data-tooltip="Remove from favourites">favorite</i>
+                    </a>
+                    <div class="grey-text text-darken-1">Remove</div>
+                {% else %}
+                    <a href="{{url_for('add_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
+                        <i class="material-icons icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite</i>
+                    </a>
+                    <div class="grey-text text-darken-1">Add</div>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="col s3 center">
+            {% if session.username.lower() == recipe.recipe_author_name.lower() %}
+                <a href="{{url_for('edit_recipe', recipe_id = recipe._id)}}"
+                    <i class="material-icons icons orange-text tooltipped" data-position="bottom" data-tooltip="Edit recipe">edit</i>
+                </a>
+                <div class="grey-text text-darken-1">Edit</div>
+            {% endif%}
+        </div>
+        <div class="col s3 center">
+            {% if session.username.lower() == recipe.recipe_author_name.lower() %}
+                <a href="{{url_for('delete_recipe', recipe_id = recipe._id)}}">
+                    <i class="material-icons icons red-text tooltipped " data-position="bottom" data-tooltip="Delete recipe">delete</i>
+                </a>
+                <div class="grey-text text-darken-1">Delete</div>
+            {% endif %}
+        </div>
+        <div class="col s3 center valign-wrapper">
+            {% if session.username %}
+                {% if session.username.lower() in recipe.upvoted_by_users %}
+                    <form class="tooltipped" data-position="bottom" data-tooltip="Already upvoted">
+                        <button class="disabled btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
+                            <i class="material-icons icons upvote-icon grey-text text-darken-1">thumb_up</i>
+                        </button>
+                        <div class="upvote-num grey-text text-darken-1">{{recipe.upvotes}}</div>
+                    </form>
+                {% else %}
+                    <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
+                        <button class="btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
+                            <i class="material-icons icons upvote-icon brown-text text-darken-3 tooltipped" data-position="bottom" data-tooltip="Upvote this recipe">thumb_up</i>
+                        </button>
+                        <div class="upvote-num grey-text text-darken-1">{{recipe.upvotes}}</div>
+                    </form>
+                {% endif %}
+            {% else %}
+                    <form>
+                        <button class="btn-flat disabled" type="submit" name="counter" value={{recipe.upvotes}}>
+                            <i class="material-icons icons upvote-icon grey-text">thumb_up</i>
+                        </button>
+                        <div class="upvote-num grey-text text-darken-1">{{recipe.upvotes}}</div>
+                    </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    <div class="row spacing">
+        <div class="col s12 m5 section blue-grey lighten-5">
+            <h5 class="small-heading center">Ingredients</h5>
+            <ul>
+                {% for items in recipe.recipe_ingredients %}
+                    <li class="list-item-height center">{{items}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col s12 m1 white"></div>
+        <div class="col s12 m6 section blue-grey lighten-5">
+            <h5 class="small-heading center">Method</h5>
+            <ol>
+                {% for items in recipe.recipe_steps %}
+                    <li class="list-item-height">{{items}}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+</div>
+{% endblock %}

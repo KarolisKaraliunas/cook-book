@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% block content %}
+
+<!-- Heading -->
+<h5 class="heading center heading-spacing">Edit Cuisine</h5>
+
+<!-- Edit form container -->
+<div class="container container-width container-spacing">
+    <div class="row">
+        <form action="{{url_for('update_cuisine', cuisine_id =cuisine._id)}}" method="POST" class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Enter cuisine name" id="cuisine_name" name="cuisine_name" type="text" class="validate" value="{{cuisine.cuisine_name}}" required>
+                    <label for="cuisine_name">New Cuisine</label>
+                </div>
+            </div>
+            <div class="row">
+                <button class="col s12 btn medium-text btn-spacing waves-effect waves-light" type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

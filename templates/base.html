@@ -31,12 +31,7 @@
         <ul id="user-options1" class="dropdown-content">
             <li><a href="{{url_for('my_recipes', username = session.username, num=1)}}">
                     <i class="fas fa-book-open  deep-orange-text text-lighten-1" aria-hidden = "true"></i> 
-                    My recipes
-                </a>
-            </li>
-            <li><a href="{{url_for('fav_recipes', username = session.username, num=1)}}">
-                    <i class="fas fa-heart red-text text-accent-4" aria-hidden = "true"></i> 
-                    Favorite recipes
+                    All Recipes
                 </a>
             </li>
             <li><a href="{{url_for('logout')}}">

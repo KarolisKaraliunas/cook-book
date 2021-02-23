@@ -1,0 +1,45 @@
+{% extends 'base.html' %}{% block content %}
+
+<!-- Heading -->
+<h5 class="center heading heading-spacing">All Dish Types</h5>
+
+<!-- Dish names container -->
+<div class="row">
+    {% for dish_dict in all_dishes %}
+        {% for k,v in dish_dict.items() %}
+            <div class="col s12 m6 l4">
+                <!-- Dish name -->
+                <div class="card-panel blue-grey lighten-5 row">
+                    <div class="col s8 m8">
+                        <span class="name">{{k}} ({{v}})</span>
+                    </div>
+                    {% if v == 0 %}
+                        <!-- Edit dish -->
+                        <div class="col s2 m2">
+                            <a href="{{url_for('edit_dish', dish_type = k)}}" class="waves-effect waves-light yellow-text text-darken-4">
+                                <i class="material-icons">edit</i>
+                            </a>
+                         </div>
+                        <!-- Delete dish -->
+                        <div class="col s2 m2">   
+                            <a href="{{url_for('delete_dish', dish_type = k)}}" class="waves-effect waves-light red-text">
+                                <i class="material-icons">delete</i>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+<!-- New dish submission link -->
+<div class="row">
+    <div class="col s12 m4 offset-m4 center-align">
+        <a href="{{url_for('add_dish')}}" class="waves-effect waves-light btn btn-width medium-text btn-spacing">
+           <i class="material-icons left">add_box</i>Add Dish
+        </a> 
+    </div>
+</div>
+
+{% endblock %}

@@ -15,8 +15,8 @@
             <nav>
                 <div class="nav-wrapper">
                     <a href="{{url_for('index')}}" class="brand-logo center">
-                        <span class="pink-text text-accent-2">Cook</span>
-                        <span class="blue-grey-text text-lighten-4"> Book</span>
+                        <span class="pink-text text-accent-2">My</span>
+                        <span class="blue-grey-text text-lighten-4"> Cookbook</span>
                     </a>
                 </div>
             </nav>
@@ -47,3 +47,66 @@
             </div>
         </div>
     
+        <!-- Sign In /Sign Up tab forms-->
+        <div class="container container-width container-spacing">
+            <div class="section">
+                <div class="row">
+                    <!-- Form tabs -->
+                    <div class="col s12 tabs-spacing">
+                        <ul class="tabs">
+                            {% if signin == True %}
+                                <li class="tab col s6"><a class="active" href="#sign-in">Sign In</a></li>
+                                <li class="tab col s6"><a href="#sign-up">Sign Up</a></li>
+                            {% else %}
+                                <li class="tab col s6"><a href="#sign-in">Sign In</a></li>
+                                <li class="tab col s6"><a class="active" href="#sign-up">Sign Up</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                     <!-- Sign In form -->
+                    <div id="sign-in" class="col s12 center">
+                        <form action="{{url_for('login')}}" method="POST">
+                            <div class="input-field">
+                                <input placeholder="Enter username" id="username1" name="username" type="text" class="validate" required>
+                                <label for="username1">Username</label>
+                            </div>
+                            <div class="input-field">
+                                <input placeholder="Enter password" id="password1" name="password" type="text" class="validate" required>
+                                <label for="password1">Password</label>
+                            </div>
+                            <button class="btn btn-spacing waves-effect waves-light" type="submit">Sign In</button>
+                        </form>
+                    </div>
+                     <!-- Sign up form -->
+                    <div id="sign-up" class="col s12 center">
+                        <form action="{{url_for('register')}}" method="POST">
+                            <div class="input-field">
+                                <input placeholder="Enter your full name" id="fullname" name="fullname" type="text" class="validate" required>
+                                <label for="fullname">Full Name</label>
+                            </div>
+                            <div class="input-field">
+                                <input placeholder="Enter username" id="username" name="username" type="text" class="validate" required>
+                                <label for="username">Username</label>
+                            </div>
+                            <div class="input-field">
+                                <input placeholder="Enter password" id="password" name="password" type="text" class="validate" required>
+                                <label for="password">Password</label>
+                            </div>
+                            <button class="btn btn-spacing waves-effect waves-light" type="submit">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="page-footer footer-copyright black">
+        <p class="center"> © 2019 My Cookbook. All rights reserved.</p>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+</body>
+</html>

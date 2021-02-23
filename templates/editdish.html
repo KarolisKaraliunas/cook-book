@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% block content %}
+
+<!-- Heading -->
+<h5 class="center heading heading-spacing">Edit Dish Type</h5>
+
+<!-- Edit form container -->
+<div class="container container-width container-spacing">
+    <div class="row">
+        <form action="{{url_for('update_dish', dish_id =dish._id)}}" method="POST" class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Enter dish type" id="dish_type" name="dish_type" type="text" class="validate" value="{{dish.dish_type}}" required>
+                    <label for="dish_type">New Dish</label>
+                </div>
+            </div>
+            <div class="row">
+                <button class="col s12 btn medium-text btn-spacing waves-effect waves-light" type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

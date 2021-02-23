@@ -1,0 +1,193 @@
+{% extends 'base.html' %}{% block content %}
+
+<!-- Heading -->
+<h5 class="center heading heading-spacing">Edit Recipe</h5>
+
+<!-- Recipe form container -->
+<div class="container">
+    <div class="section">
+        
+        <!-- Instructions -->
+        <p class="left">Edit recipe below.<br>
+            <span class="small-text red-text text-darken-4">All fields are required.</span>
+        </p>
+        
+        <!-- Recipe form -->
+        <form action="{{url_for('update_recipe', recipe_id =recipe._id)}}" method="POST" class="recipe-form">
+            
+            <!-- Title -->
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Chocolate Chip Cookie" id="recipe_title" name="recipe_title" type="text" class="validate" value="{{recipe.recipe_title}}" required>
+                    <label for="recipe_title">Title</label>
+                </div>
+            </div>
+            
+            <!-- Short description -->
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea placeholder="These are the ultimate chocolate chip cookies...." id="recipe_short_description" name="recipe_short_description" class="materialize-textarea" required>{{recipe.recipe_short_description}}</textarea>
+                    <label for="recipe_short_description">Short Description</label>
+                </div>
+            </div>
+            
+            <!-- Image -->
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Enter image url" id="recipe_image_url" name="recipe_image_url" type="text" class="validate" value="{{recipe.recipe_image_url}}" required>
+                    <label for="recipe_image_url">Image URL</label>
+                </div>
+            </div>
+            
+            <!-- Cuisines -->
+            <div class="row">
+                <div class="input-field col s12">
+                    <select id="cuisine_name" name="cuisine_name" required>
+                        <option value="" disabled selected>Choose Cuisine</option>
+                        {% set _stub = cuisines.rewind() %}
+                        {% for cuisine in cuisines %}
+                            {% if cuisine.cuisine_name == recipe.cuisine_name %}
+                        <option value="{{cuisine.cuisine_name}}" selected>{{cuisine.cuisine_name}}</option>
+                            {% else %}
+                        <option value="{{cuisine.cuisine_name}}">{{cuisine.cuisine_name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <label for="cuisine_name">Cuisine</label>
+                </div>
+            </div>
+            
+            <!-- Dishes -->
+            <div class="row">
+                <div class="input-field col s12">
+                    <select id="dish_type" name="dish_type" required>
+                        <option value="" disabled selected>Choose Dish Type</option>
+                        {% set _stub = dishes.rewind() %}
+                        {% for dish in dishes %}
+                            {% if dish.dish_type == recipe.dish_type %}
+                        <option value="{{dish.dish_type}}" selected>{{dish.dish_type}}</option>
+                            {% else %}
+                        <option value="{{dish.dish_type}}">{{dish.dish_type}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <label for="dish_type">Dish Type</label>
+                </div>
+            </div>
+            
+            <!-- Allergens -->
+            <div class="row">
+                <div class="input-field col s12">
+                    <select id="allergen_name" name="allergen_name" multiple required>
+                        <option value="Choose Allergen" disabled selected>Choose Allergen</option>
+                        {% set _stub = allergens.rewind() %}
+                        {% for allergen in allergens %}
+                            {% if allergen.allergen_name in recipe.allergen_name %}
+                            <option value="{{allergen.allergen_name}}" selected>{{allergen.allergen_name}}</option>
+                            {% else %}
+                            <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <label for="allergen_name">Allergens</label>
+                </div>
+            </div>
+            
+            <div class="row">
+                
+                <!-- Prep Time -->
+                <div class="input-field col s6">
+                    <input placeholder="in minutes" id="recipe_prep_time" name="recipe_prep_time" type="text" class="validate" value="{{recipe.recipe_prep_time}}" required>
+                    <label for="recipe_prep_time">Prep. Time (mins/hrs)</label>
+                </div>
+                
+                <!-- Cook Time -->
+                <div class="input-field col s6">
+                    <input placeholder="in minutes" id="recipe_cook_time" name="recipe_cook_time" type="text" class="validate" value="{{recipe.recipe_cook_time}}" required>
+                    <label for="recipe_cook_time">Cook Time (mins/hrs)</label>
+                </div>
+            </div>
+            
+            <div class="row">
+                
+                <!-- Total Time -->
+                <div class="input-field col s6">
+                    <input placeholder="in minutes" id="total_time" name="total_time" type="text" class="validate" value="{{recipe.total_time}}" required>
+                    <label for="total_time">Total Time (mins/hrs)</label>
+                </div>
+                
+                <!-- Servings -->
+                <div class="input-field col s6">
+                    <input placeholder="5" id="recipe_serves" name="recipe_serves" type="text" class="validate" value="{{recipe.recipe_serves}}" required>
+                    <label for="recipe_serves">Servings</label>
+                </div>
+            </div>
+            
+            <!-- Ingredients -->
+            <div class="row">
+                <div class="col s12 flow-text">Ingredients</div>
+            </div>
+            <div id="ingredients">
+                {% for item in recipe.recipe_ingredients %}
+                    {% if item == recipe.recipe_ingredients[0] %}
+                    <div class="row">
+                        <div class="input-field col s10 m11">
+                            <input placeholder="100g Sugar" id="recipe_ingredients" name="ingred" type="text" class="validate" value="{{recipe.recipe_ingredients[0]}}" required>
+                            <label for="recipe_ingredients">Ingredient(s)</label>
+                        </div>
+                        <div class="col s2 m1">
+                            <a class="btn-floating waves-effect waves-light green accent-4" id="add_ingredient"><i class="material-icons">add</i></a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="row new-ingredient"> 
+                        <div class="input-field col s10 m11">
+                            <input type="text" name="ingred" id="recipe_ingredients" class="validate" value="{{item}}" required>
+                            <label for="recipe_ingredients">Ingredient(s)</label>
+                        </div>
+                        <div class="col s2 m1">
+                            <a class="btn-floating waves-effect waves-light red" id="delete_ingredient"><i class="material-icons">delete</i></a>
+                        </div>
+                    </div>    
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <!-- Method -->
+            <div class="row">
+                <div class="col s12 flow-text">Method</div>
+            </div>
+            <div id="steps">
+                {% for item in recipe.recipe_steps %}
+                    {% if item == recipe.recipe_steps[0] %}
+                    <div class="row">
+                        <div class="input-field col s10 m11">
+                            <textarea placeholder="Preheat oven to 350ºF. ..." id="recipe_steps" name="steps" class="materialize-textarea" required>{{recipe.recipe_steps[0]}}</textarea>
+                            <label for="recipe_steps">Step(s)</label>
+                        </div>
+                        <div class="col s2 m1">
+                            <a class="btn-floating waves-effect waves-light green accent-4" id="add_step"><i class="material-icons">add</i></a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="row new-step"> 
+                        <div class="input-field col s10 m11">
+                            <textarea id="recipe_steps" name="steps" class="materialize-textarea" required>{{item}}</textarea>
+                            <label for="recipe_steps">Step(s)</label>
+                        </div>
+                        <div class="col s2 m1">
+                            <a class="btn-floating waves-effect waves-light red" id="delete_step"><i class="material-icons">delete</i></a>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <!-- Submit button -->
+            <div class="row">
+                <button class="col s12 btn medium-text waves-effect waves-light" type="submit">Save Recipe</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
